@@ -18,8 +18,8 @@
 		"main": [
 			"com.natem135.deathbans.DeathBans"
 		],
-		"client": [
-			"com.natem135.deathbans.DeathBansClient"
+		"server": [
+			"com.natem135.deathbans.DeathBansServer"
 		],
 		"fabric-datagen": [
 			"com.natem135.deathbans.DeathBansDataGenerator"
