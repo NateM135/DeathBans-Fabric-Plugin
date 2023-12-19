@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "deathbans",
+	"version": "${version}",
+	"name": "Deathbans",
+	"description": "Configurable bans upon death in a world",
+	"authors": [
+		"natem135"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/deathbans/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.natem135.deathbans.DeathBans"
+		],
+		"client": [
+			"com.natem135.deathbans.DeathBansClient"
+		],
+		"fabric-datagen": [
+			"com.natem135.deathbans.DeathBansDataGenerator"
+		]
+	},
+	"mixins": [
+		"deathbans.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.3",
+		"minecraft": "~1.20.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
