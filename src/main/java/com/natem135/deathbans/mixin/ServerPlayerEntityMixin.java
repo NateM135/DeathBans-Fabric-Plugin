@@ -1,5 +1,6 @@
 package com.natem135.deathbans.mixin;
 
+import com.natem135.deathbans.events.PlayerDeathCallback;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -11,6 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ServerPlayerEntityMixin {
     @Inject(method = "onDeath", at = @At("TAIL"))
     private void onDeath(DamageSource damageSource, CallbackInfo ci) {
-        System.out.println("HERE HERE HERE HERE HERE");
+        System.out.println("[INSIDE MIXIN] onDeath TAIL Override");
+        ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) (Object) this;
+        PlayerDeathCallback.EVENT.invoker().onPlayerDeath(serverPlayerEntity, damageSource);
     }
 }

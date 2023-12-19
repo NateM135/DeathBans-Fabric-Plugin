@@ -1,5 +1,6 @@
 package com.natem135.deathbans;
 
+import com.natem135.deathbans.events.PlayerDeathCallback;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,12 @@ public class DeathBansServer implements DedicatedServerModInitializer {
 
     @Override
     public void onInitializeServer() {
-        LOGGER.info("DeathBan Server Initializer !!!!");
+        LOGGER.info("[+] Initializing Plugin");
+
+        PlayerDeathCallback.EVENT.register((player, source) -> {
+            LOGGER.info(source.getName());
+            System.out.println("[SERVER CODE] DEATH DETECTED");
+        });
     }
 }
 
