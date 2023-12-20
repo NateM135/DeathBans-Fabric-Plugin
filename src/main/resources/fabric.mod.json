@@ -3,13 +3,13 @@
 	"id": "deathbans",
 	"version": "${version}",
 	"name": "Deathbans",
-	"description": "Configurable bans upon death in a world",
+	"description": "Configurable length temporary ban upon death on minecraft servers.",
 	"authors": [
 		"natem135"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://natem135.com/",
+		"sources": "https://github.com/NateM135/DeathBans-Fabric-Plugin"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/deathbans/icon.png",
