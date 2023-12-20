@@ -41,9 +41,6 @@ public class DeathBansServer implements DedicatedServerModInitializer {
                         banExpirationTime,
                         "You are currently death-banned."
                 );
-                System.out.println("===DEBUG===");
-                System.out.println(player.getGameProfile().toString());
-                System.out.println(bannedPlayerEntry == null);
                 bannedPlayerList.add(bannedPlayerEntry);
                 ServerPlayerEntity serverPlayerEntity = player.getServer().getPlayerManager().getPlayer(player.getGameProfile().getId());
             }

@@ -14,7 +14,6 @@ import java.net.SocketAddress;
 public class ServerPlayerEntityMixin {
     @Inject(method = "onDeath", at = @At("HEAD"))
     private void onDeath(DamageSource damageSource, CallbackInfo ci) {
-        System.out.println("[INSIDE MIXIN] onDeath TAIL Override");
         ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) (Object) this;
         PlayerDeathCallback.EVENT.invoker().onPlayerDeath(serverPlayerEntity, damageSource);
     }
