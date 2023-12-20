@@ -1,6 +1,7 @@
 package com.natem135.deathbans;
 
 import com.natem135.deathbans.events.PlayerDeathCallback;
+import com.natem135.deathbans.utils.DeathMessageGenerator;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.minecraft.server.BannedPlayerEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -25,7 +26,7 @@ public class DeathBansServer implements DedicatedServerModInitializer {
             LOGGER.info(String.format("[+] %s has Died.", player.getName()));
 
             // Ten Minutes
-            int banDurationMillis = 60*1000*10;
+            int banDurationMillis = 60*1000;
 
             Date banStartTime = new Date();
             Date banExpirationTime = new Date(banStartTime.getTime() + banDurationMillis);
@@ -45,7 +46,7 @@ public class DeathBansServer implements DedicatedServerModInitializer {
                 ServerPlayerEntity serverPlayerEntity = player.getServer().getPlayerManager().getPlayer(player.getGameProfile().getId());
             }
 
-            player.networkHandler.disconnect(Text.of("Thou hast fallen and lost thy noble life. The hero hath crumbled over the weight of his own justice. His story of revolution reacheth not the ears of the people. The torch of courage that hath begun to kindle hath now been extinguished by tainted winds."));
+            player.networkHandler.disconnect(Text.of(DeathMessageGenerator.getDeathMessage()));
         });
     }
 }
