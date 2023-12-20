@@ -13,6 +13,6 @@ public class DeathMessageGenerator {
     };
 
     public static String getDeathMessage() {
-        return deathMessages[random.nextInt(deathMessages.length)];
+        return deathMessages[random.nextInt(deathMessages.length)]+ "\n\nYou have been death-banned.";
     }
 }

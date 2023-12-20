@@ -26,7 +26,7 @@ public class DeathBansServer implements DedicatedServerModInitializer {
             LOGGER.info(String.format("[+] %s has Died.", player.getName()));
 
             // Create appropriate time objects
-            int banDurationMillis = 60*1000;
+            int banDurationMillis = 60*1000*10;
             Date banStartTime = new Date();
             Date banExpirationTime = new Date(banStartTime.getTime() + banDurationMillis);
 
