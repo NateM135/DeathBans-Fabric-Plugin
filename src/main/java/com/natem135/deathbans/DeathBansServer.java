@@ -4,7 +4,6 @@ import com.natem135.deathbans.events.PlayerDeathCallback;
 import com.natem135.deathbans.utils.DeathMessageGenerator;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.minecraft.server.BannedPlayerEntry;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +39,6 @@ public class DeathBansServer implements DedicatedServerModInitializer {
                     "You are currently death-banned."
             );
             bannedPlayerList.add(bannedPlayerEntry);
-            ServerPlayerEntity serverPlayerEntity = player.getServer().getPlayerManager().getPlayer(player.getGameProfile().getId());
 
             // Adding a ban entry does not remove the user, so remove the user.
             player.networkHandler.disconnect(Text.of(DeathMessageGenerator.getDeathMessage()));
