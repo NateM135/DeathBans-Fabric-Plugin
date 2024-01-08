@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 import java.util.Objects;
 import net.minecraft.server.BannedPlayerList;
+import com.natem135.deathbans.utils.DeathBanLengthCalculator;
 
 public class DeathBansServer implements DedicatedServerModInitializer {
     public static final String MOD_ID = "deathbans";
@@ -22,19 +23,13 @@ public class DeathBansServer implements DedicatedServerModInitializer {
 
     @Override
     public void onInitializeServer() {
-        LOGGER.info("[+] Initializing DeathBans Plugin");
-        boolean res =  DeathBanConfigManager.loadConfig();
-        if(!res) {
-            LOGGER.error("Critical error when loading DeathBans plugin.");
-            return;
-        }
         DeathBanConfig pluginConfig = DeathBanConfigManager.getConfig();
 
         PlayerDeathCallback.EVENT.register((player, source) -> {
             LOGGER.info(String.format("[+] %s has Died.", player.getName()));
 
             // Create appropriate time objects
-            int banDurationMillis = pluginConfig.initial_ban_length_ms;
+            int banDurationMillis = DeathBanLengthCalculator.calculateBanMS(player);
             Date banStartTime = new Date();
             Date banExpirationTime = new Date(banStartTime.getTime() + banDurationMillis);
 
@@ -50,7 +45,7 @@ public class DeathBansServer implements DedicatedServerModInitializer {
             bannedPlayerList.add(bannedPlayerEntry);
 
             // Send announcement of ban in server chat.
-            Text announceMessage = Text.translatable("chat.type.announcement",  "DeathBans", String.format("%s has been death-banned for {} minutes!", player.getGameProfile().getName())).formatted(Formatting.DARK_GREEN).formatted(Formatting.BOLD);
+            Text announceMessage = Text.translatable("chat.type.announcement",  "DeathBans", String.format("%s has been death-banned for %.1f minutes!", player.getGameProfile().getName(), (double)banDurationMillis/(double)(1000*60))).formatted(Formatting.DARK_GREEN).formatted(Formatting.BOLD);
             player.getServer().getPlayerManager().broadcast(announceMessage, false);
 
             // Adding a ban entry does not remove the user, so remove the user.

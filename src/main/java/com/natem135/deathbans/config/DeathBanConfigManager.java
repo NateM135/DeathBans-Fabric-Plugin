@@ -29,15 +29,18 @@ public class DeathBanConfigManager {
             File configFile = new File(configDir, "config.json");
             if(configFile.exists()) {
                 DeathBansServer.LOGGER.info("Config File Found! Reading config...");
-                CONFIG = GSON.fromJson(new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8), CONFIG.getClass());
+                try {
+                    CONFIG = GSON.fromJson(new InputStreamReader(new FileInputStream(configFile), StandardCharsets.UTF_8), CONFIG.getClass());
+                    return true;
+                }
+                catch(Exception e) {
+                    DeathBansServer.LOGGER.error("Config file format is invalid. Overwriting invalid config with default...");
+                }
             }
-            else {
-                DeathBansServer.LOGGER.info("Config File Does Not Exist. Creating default configuration file...");
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8));
-                writer.write(GSON.toJson(CONFIG));
-                writer.close();
-            }
-
+            DeathBansServer.LOGGER.info("Config File Does Not Exist. Creating default configuration file...");
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8));
+            writer.write(GSON.toJson(CONFIG));
+            writer.close();
             return true;
         }
         catch(Exception e){

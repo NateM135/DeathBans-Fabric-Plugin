@@ -7,12 +7,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import com.mojang.authlib.GameProfile;
-import java.net.SocketAddress;
 
 @Mixin(ServerPlayerEntity.class)
 public class ServerPlayerEntityMixin {
-    @Inject(method = "onDeath", at = @At("HEAD"))
+    @Inject(method = "onDeath", at = @At("TAIL"))
     private void onDeath(DamageSource damageSource, CallbackInfo ci) {
         ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) (Object) this;
         PlayerDeathCallback.EVENT.invoker().onPlayerDeath(serverPlayerEntity, damageSource);

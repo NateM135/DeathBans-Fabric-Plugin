@@ -1,5 +1,6 @@
 package com.natem135.deathbans;
 
+import com.natem135.deathbans.config.DeathBanConfigManager;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -11,7 +12,10 @@ public class DeathBans implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-
-		LOGGER.info("Hello Fabric world!");
+		LOGGER.info("[+] Initializing DeathBans Plugin");
+		boolean res =  DeathBanConfigManager.loadConfig();
+		if(!res) {
+			LOGGER.error("Critical error when loading DeathBans plugin.");
+		}
 	}
 }
