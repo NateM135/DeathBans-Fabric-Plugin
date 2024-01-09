@@ -49,4 +49,19 @@ public class DeathBanConfigManager {
         }
 
     }
+
+    public static boolean saveConfig() {
+        try {
+            File configDir = Paths.get("", "config", "deathbans").toFile();
+            File configFile = new File(configDir, "config.json");
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(configFile), StandardCharsets.UTF_8));
+            writer.write(GSON.toJson(CONFIG));
+            writer.close();
+            return true;
+        }
+        catch(Exception e) {
+            DeathBansServer.LOGGER.error(e.getMessage());
+            return false;
+        }
+    }
 }

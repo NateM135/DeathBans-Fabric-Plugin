@@ -23,9 +23,14 @@ public class DeathBansServer implements DedicatedServerModInitializer {
 
     @Override
     public void onInitializeServer() {
-        DeathBanConfig pluginConfig = DeathBanConfigManager.getConfig();
 
         PlayerDeathCallback.EVENT.register((player, source) -> {
+            DeathBanConfig pluginConfig = DeathBanConfigManager.getConfig();
+
+            if(!pluginConfig.plugin_enabled) {
+                return;
+            }
+
             LOGGER.info(String.format("[+] %s has Died.", player.getName()));
 
             // Create appropriate time objects
