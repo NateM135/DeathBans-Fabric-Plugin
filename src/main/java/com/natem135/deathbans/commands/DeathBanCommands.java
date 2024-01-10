@@ -19,9 +19,11 @@ public class DeathBanCommands {
                     .executes(DeathBanCommands::getPluginInfo)
                 )
                 .then(CommandManager.literal("on")
+                        .requires(source -> source.hasPermissionLevel(4))
                         .executes(DeathBanCommands::enablePlugin)
                 )
                 .then(CommandManager.literal("off")
+                        .requires(source -> source.hasPermissionLevel(4))
                         .executes(DeathBanCommands::disablePlugin)
                 )
         ));
