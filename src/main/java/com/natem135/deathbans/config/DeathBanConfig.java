@@ -2,6 +2,8 @@ package com.natem135.deathbans.config;
 
 public class DeathBanConfig {
     // Ban length specified by min(Base Ban length * (scaling_factor * num_deaths), max_ban_length_ms)
+    // Global Plugin Toggle
+    public boolean plugin_enabled = false;
     // Death Ban Length
     public int base_ban_length_ms = 60*1000*10;
     // Toggle Scaling Ban Window
