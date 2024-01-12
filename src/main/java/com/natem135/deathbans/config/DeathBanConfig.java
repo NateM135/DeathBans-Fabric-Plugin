@@ -16,4 +16,6 @@ public class DeathBanConfig {
     public String ban_message = "You are currently death-banned.";
     // Discord webhook for death events
     public String webhook_url = "";
+    // Toggle for Discord Webhook Death Events. Requires URL to be set.
+    public boolean send_discord_update_on_death = false;
 }

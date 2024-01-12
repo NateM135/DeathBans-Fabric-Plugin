@@ -2,6 +2,7 @@ package com.natem135.deathbans;
 
 import com.natem135.deathbans.events.PlayerDeathCallback;
 import com.natem135.deathbans.utils.DeathMessageGenerator;
+import com.natem135.deathbans.utils.DeathBansDiscordNotifier;
 import com.natem135.deathbans.config.DeathBanConfigManager;
 import com.natem135.deathbans.config.DeathBanConfig;
 import net.fabricmc.api.DedicatedServerModInitializer;
@@ -52,6 +53,11 @@ public class DeathBansServer implements DedicatedServerModInitializer {
             // Send announcement of ban in server chat.
             Text announceMessage = Text.translatable("chat.type.announcement",  "DeathBans", String.format("%s has been death-banned for %.1f minutes!", player.getGameProfile().getName(), (double)banDurationMillis/(double)(1000*60))).formatted(Formatting.DARK_GREEN).formatted(Formatting.BOLD);
             player.getServer().getPlayerManager().broadcast(announceMessage, false);
+
+            // Send Discord notification is feature is enabled
+            if(pluginConfig.send_discord_update_on_death) {
+                DeathBansDiscordNotifier.sendDiscordNotification("placeholder");
+            }
 
             // Adding a ban entry does not remove the user, so remove the user.
             player.networkHandler.disconnect(Text.of(DeathMessageGenerator.getDeathMessage()));
