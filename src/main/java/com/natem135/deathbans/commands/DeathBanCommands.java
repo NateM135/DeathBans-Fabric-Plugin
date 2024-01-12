@@ -9,6 +9,7 @@ import net.minecraft.text.Text;
 import com.natem135.deathbans.DeathBans;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 
 public class DeathBanCommands {
     public static void register() {
@@ -31,6 +32,12 @@ public class DeathBanCommands {
                         .then(CommandManager.argument("ban_time_minutes", DoubleArgumentType.doubleArg())
                                 .requires(source -> source.hasPermissionLevel(4))
                                 .executes(DeathBanCommands::setDeathBanTime)
+                        )
+                )
+                .then(CommandManager.literal("set_webhook_url")
+                        .then(CommandManager.argument("webhook_url", StringArgumentType.greedyString())
+                                .requires(source -> source.hasPermissionLevel(4))
+                                .executes(DeathBanCommands::setWebhookURL)
                         )
                 )
         ));
@@ -86,6 +93,20 @@ public class DeathBanCommands {
             return 0;
         }
         ctx.getSource().sendFeedback(() -> Text.literal(String.format("DeathBan length updated to %.2f minutes! (%dms)!", ban_time_minutes, config.base_ban_length_ms)), false);
+        return 1;
+    }
+
+    private static int setWebhookURL(CommandContext<ServerCommandSource> ctx) {
+        final String _webhook_url = StringArgumentType.getString(ctx, "webhook_url");
+        // TODO (natem135): Verify the webhook URL is a valid URL/valid webhook URL
+        DeathBanConfig config = DeathBanConfigManager.getConfig();
+        config.webhook_url = _webhook_url;
+        boolean updated_correctly = DeathBanConfigManager.saveConfig();
+        if(!updated_correctly) {
+            ctx.getSource().sendFeedback(() -> Text.literal("ERROR: The configuration failed to update."), false);
+            return 0;
+        }
+        ctx.getSource().sendFeedback(() -> Text.literal("Webhook URL has been updated!"), false);
         return 1;
     }
 }

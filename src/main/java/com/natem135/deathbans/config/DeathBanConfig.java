@@ -14,4 +14,6 @@ public class DeathBanConfig {
     public int max_ban_length_ms = 60*1000*30;
     // Ban message, showed to users when they attempt to rejoin with active death-ban
     public String ban_message = "You are currently death-banned.";
+    // Discord webhook for death events
+    public String webhook_url = "";
 }
