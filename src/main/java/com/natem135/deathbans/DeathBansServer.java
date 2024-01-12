@@ -57,7 +57,7 @@ public class DeathBansServer implements DedicatedServerModInitializer {
             player.getServer().getPlayerManager().broadcast(announceMessage, false);
 
             // Send Discord notification is feature is enabled
-            if(pluginConfig.send_discord_update_on_death) {
+            if(pluginConfig.discord_notify_send_msg_on_death) {
                 DeathBansDiscordNotifier.sendDiscordNotification(notify_message);
             }
 

@@ -100,7 +100,7 @@ public class DeathBanCommands {
         final String _webhook_url = StringArgumentType.getString(ctx, "webhook_url");
         // TODO (natem135): Verify the webhook URL is a valid URL/valid webhook URL
         DeathBanConfig config = DeathBanConfigManager.getConfig();
-        config.webhook_url = _webhook_url;
+        config.discord_notify_webhook_url = _webhook_url;
         boolean updated_correctly = DeathBanConfigManager.saveConfig();
         if(!updated_correctly) {
             ctx.getSource().sendFeedback(() -> Text.literal("ERROR: The configuration failed to update."), false);

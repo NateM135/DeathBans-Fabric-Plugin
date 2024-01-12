@@ -14,15 +14,15 @@ public class DeathBansDiscordNotifier {
     public static void sendDiscordNotification(String death_message) {
         DeathBans.LOGGER.info("Inside Function");
         DeathBanConfig config = DeathBanConfigManager.getConfig();
-        if(!config.send_discord_update_on_death) {
+        if(!config.discord_notify_send_msg_on_death) {
             DeathBans.LOGGER.error("Attempted to send discord notification when feature is not enabled.");
             return;
         }
-        if(config.webhook_url.isEmpty()) {
+        if(config.discord_notify_webhook_url.isEmpty()) {
             DeathBans.LOGGER.error("DeathBan Discord notification is enabled but no webhook link is provided.");
             return;
         }
-        try (WebhookClient client = WebhookClient.withUrl(config.webhook_url)){
+        try (WebhookClient client = WebhookClient.withUrl(config.discord_notify_webhook_url)){
             // WebhookMessageBuilder builder = new WebhookMessageBuilder();
 
             WebhookEmbed embed = new WebhookEmbedBuilder()
