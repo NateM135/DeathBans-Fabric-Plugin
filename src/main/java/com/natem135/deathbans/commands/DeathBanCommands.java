@@ -8,6 +8,7 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import com.natem135.deathbans.DeathBans;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.arguments.DoubleArgumentType;
 
 public class DeathBanCommands {
     public static void register() {
@@ -25,6 +26,12 @@ public class DeathBanCommands {
                 .then(CommandManager.literal("off")
                         .requires(source -> source.hasPermissionLevel(4))
                         .executes(DeathBanCommands::disablePlugin)
+                )
+                .then(CommandManager.literal("set_ban_time_mins")
+                        .then(CommandManager.argument("ban_time_minutes", DoubleArgumentType.doubleArg())
+                                .requires(source -> source.hasPermissionLevel(4))
+                                .executes(DeathBanCommands::setDeathBanTime)
+                        )
                 )
         ));
     }
@@ -47,7 +54,7 @@ public class DeathBanCommands {
             updated_correctly = DeathBanConfigManager.saveConfig();
         }
         if(!updated_correctly) {
-            ctx.getSource().sendFeedback(() -> Text.literal("The configuration failed to update."), false);
+            ctx.getSource().sendFeedback(() -> Text.literal("ERROR: The configuration failed to update."), false);
             return 0;
         }
         ctx.getSource().sendFeedback(() -> Text.literal("The plugin has been enabled!"), false);
@@ -66,6 +73,19 @@ public class DeathBanCommands {
             return 0;
         }
         ctx.getSource().sendFeedback(() -> Text.literal("The plugin has been successfully disabled."), false);
+        return 1;
+    }
+
+    private static int setDeathBanTime(CommandContext<ServerCommandSource> ctx) {
+        final double ban_time_minutes = DoubleArgumentType.getDouble(ctx, "ban_time_minutes");
+        DeathBanConfig config = DeathBanConfigManager.getConfig();
+        config.base_ban_length_ms = (int)(ban_time_minutes * 1000 * 60);
+        boolean updated_correctly = DeathBanConfigManager.saveConfig();
+        if(!updated_correctly) {
+            ctx.getSource().sendFeedback(() -> Text.literal("ERROR: The configuration failed to update."), false);
+            return 0;
+        }
+        ctx.getSource().sendFeedback(() -> Text.literal(String.format("DeathBan length updated to %.2f minutes! (%dms)!", ban_time_minutes, config.base_ban_length_ms)), false);
         return 1;
     }
 }
