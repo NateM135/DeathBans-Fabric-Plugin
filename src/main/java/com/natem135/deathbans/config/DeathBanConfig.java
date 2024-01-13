@@ -18,4 +18,8 @@ public class DeathBanConfig {
     public String discord_notify_webhook_url = "";
     // Toggle for Discord Webhook Death Events. Requires URL to be set.
     public boolean discord_notify_send_msg_on_death = false;
+    // PFP for DeathBan discord message
+    public String discord_notify_pfp_url = "https://i.imgur.com/f8RPcLR.png";
+    // Username used for DeathBan Webhook
+    public String discord_notify_webhook_username = "DeathBans Notify";
 }

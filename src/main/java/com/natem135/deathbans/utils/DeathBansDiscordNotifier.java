@@ -1,6 +1,7 @@
 package com.natem135.deathbans.utils;
 
 import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import com.natem135.deathbans.DeathBans;
 import com.natem135.deathbans.config.DeathBanConfigManager;
 import com.natem135.deathbans.config.DeathBanConfig;
@@ -23,11 +24,8 @@ public class DeathBansDiscordNotifier {
             return;
         }
         try (WebhookClient client = WebhookClient.withUrl(config.discord_notify_webhook_url)){
-            // WebhookMessageBuilder builder = new WebhookMessageBuilder();
-
             WebhookEmbed embed = new WebhookEmbedBuilder()
                     .setColor(0x00FF00)
-                    .setThumbnailUrl("https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/02/youre-under-arrest-1.jpeg")
                     .setTitle(new WebhookEmbed.EmbedTitle("DeathBan Notification", null))
                     .addField(new WebhookEmbed.EmbedField(
                             true,
@@ -38,7 +36,12 @@ public class DeathBansDiscordNotifier {
                     .setTimestamp(ZonedDateTime.now())
                     .build();
 
-            client.send(embed);
+            WebhookMessageBuilder builder = new WebhookMessageBuilder();
+            builder.setUsername(config.discord_notify_webhook_username);
+            builder.setAvatarUrl(config.discord_notify_pfp_url);
+            builder.addEmbeds(embed);
+
+            client.send(builder.build());
         }
         catch (Exception e) {
             DeathBans.LOGGER.error("Discord notify feature enabled but webhook failed to initialize. Reason: " + e);

@@ -40,6 +40,16 @@ public class DeathBanCommands {
                                 .executes(DeathBanCommands::setWebhookURL)
                         )
                 )
+                .then(CommandManager.literal("toggle_discord_webhook")
+                        .then(CommandManager.literal("on")
+                                    .requires(source -> source.hasPermissionLevel(4))
+                                    .executes(DeathBanCommands::enableWebhook)
+                        )
+                        .then(CommandManager.literal("off")
+                                        .requires(source -> source.hasPermissionLevel(4))
+                                        .executes(DeathBanCommands::disableWebhook)
+                        )
+                )
         ));
     }
 
@@ -107,6 +117,35 @@ public class DeathBanCommands {
             return 0;
         }
         ctx.getSource().sendFeedback(() -> Text.literal("Webhook URL has been updated!"), false);
+        return 1;
+    }
+    private static int enableWebhook(CommandContext<ServerCommandSource> ctx) {
+        DeathBanConfig config = DeathBanConfigManager.getConfig();
+        boolean updated_correctly = true;
+        if(!config.discord_notify_send_msg_on_death) {
+            config.discord_notify_send_msg_on_death = true;
+            updated_correctly = DeathBanConfigManager.saveConfig();
+        }
+        if(!updated_correctly) {
+            ctx.getSource().sendFeedback(() -> Text.literal("ERROR: The configuration failed to update."), false);
+            return 0;
+        }
+        ctx.getSource().sendFeedback(() -> Text.literal("Successfully enabled Discord death notifications! Please ensure that you supply a Discord webhook in the deathban mod configuration file or by using the appropriate server command."), false);
+        return 1;
+    }
+
+    private static int disableWebhook(CommandContext<ServerCommandSource> ctx) {
+        DeathBanConfig config = DeathBanConfigManager.getConfig();
+        boolean updated_correctly = true;
+        if(config.discord_notify_send_msg_on_death) {
+            config.discord_notify_send_msg_on_death = false;
+            updated_correctly = DeathBanConfigManager.saveConfig();
+        }
+        if(!updated_correctly) {
+            ctx.getSource().sendFeedback(() -> Text.literal("ERROR: The configuration failed to update."), false);
+            return 0;
+        }
+        ctx.getSource().sendFeedback(() -> Text.literal("Successfully disabled Discord death notifications."), false);
         return 1;
     }
 }
